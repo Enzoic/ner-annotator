@@ -11,7 +11,7 @@
           </strong>
         </span>
       </div>
-      <!-- 
+      <!--
       <div class="cursor-pointer non-selectable">
         <span>
           Project
@@ -233,7 +233,7 @@ export default {
       let file = e.target.files[0];
       let filereader = new FileReader();
       filereader.onload = (ev) => {
-        this.setInputSentences(ev.target.result);
+        this.setInputSentences({data: ev.target.result, filename: file.name});
         this.clearAllAnnotations();
       };
       filereader.readAsText(file);

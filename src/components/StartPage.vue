@@ -135,7 +135,7 @@ export default {
       try {
         let reader = new FileReader();
         reader.addEventListener("load", (event) => {
-          this.setInputSentences(event.target.result);
+          this.setInputSentences({data: event.target.result, filename: file.name});
           this.$emit("file-loaded");
         });
         reader.readAsText(file);

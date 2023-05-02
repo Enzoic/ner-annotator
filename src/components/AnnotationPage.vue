@@ -75,6 +75,7 @@ export default {
       "currentIndex",
       "inputSentences",
       "enableKeyboardShortcuts",
+      "filename",
     ]),
   },
   watch: {
@@ -140,14 +141,15 @@ export default {
       ) {
         return;
       }
-      
+
       const rangeStart = selection.getRangeAt(0);
       const rangeEnd = selection.getRangeAt(selection.rangeCount - 1);
-      let start, end;
+      let start, end, line;
       try {
         start = parseInt(rangeStart.startContainer.parentElement.id.replace("t", ""));
         let offsetEnd = parseInt(rangeEnd.endContainer.parentElement.id.replace("t", ""));
         end = offsetEnd + rangeEnd.endOffset;
+        line = this.currentIndex;
       } catch {
         console.log("selected text were not tokens");
         return;
@@ -160,8 +162,8 @@ export default {
         selection.empty();
         return;
       }
-      
-      this.tm.addNewBlock(start, end, this.currentClass);
+
+      this.tm.addNewBlock(start, end, this.currentClass, line);
       selection.empty();
     },
     onRemoveBlock(blockStart) {

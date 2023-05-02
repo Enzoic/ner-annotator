@@ -11,11 +11,12 @@ import { exportFile } from "./utils";
 export default {
   name: "ExportAnnotations",
   computed: {
-    ...mapState(["annotations", "classes"]),
+    ...mapState(["annotations", "classes", "filename"]),
   },
   methods: {
     async generateJSONExport() {
       const output = {
+        filename: this.filename,
         classes: this.classes.map((c) => c.name),
         annotations: this.annotations.map((a) => ([
           a.text,

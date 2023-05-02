@@ -23,12 +23,13 @@ const niceColors = [
 ];
 
 export const mutations = {
-  setInputSentences(state, payload) {
-    if (!Array.isArray(payload)) {
-      state.originalText = payload;
-      payload = payload.split(state.separator);
+  setInputSentences(state, { data, filename }) {
+    if (!Array.isArray(data)) {
+      state.originalText = data;
+      data = data.split(state.separator);
     }
-    state.inputSentences = payload.map((s, i) => ({ id: i, text: s }));
+    state.inputSentences = data.map((s, i) => ({ id: i, text: s }));
+    state.filename = filename;
   },
   addClass(state, payload) {
     let existing = state.classes.find((c) => c.name == payload);
@@ -169,6 +170,7 @@ export default {
   state() {
     let tags = LocalStorage.getItem("tags");
     return {
+      filename: "",
       annotations: [],
       classes: tags || [],
       inputSentences: [],

@@ -39,13 +39,14 @@ class TokenManager {
    * @param {Number} end 'start' value of the token forming the end of the token block
    * @param {Number} _class the id of the class to highlight
    */
-  addNewBlock(_start, _end, _class) {
+  addNewBlock(_start, _end, _class, _line) {
     let selectedTokens = [];
     let newTokens = [];
 
     let selectionStart = _end < _start ? _end : _start;
     let selectionEnd = _end > _start ? _end : _start;
-    
+    let selectionLine = _line;
+
     for (let i = 0; i < this.tokens.length; i++) {
       let currentToken = this.tokens[i];
       if (currentToken.end < selectionStart) {
@@ -120,6 +121,7 @@ class TokenManager {
           type: "token-block",
           start: selectedTokens[0].start,
           end: selectedTokens[selectedTokens.length - 1].end,
+          line: selectionLine,
           tokens: selectedTokens,
           label: _class && _class.name ? _class.name : "Unlabelled",
           classId: _class && _class.id ? _class.id : 0,
@@ -191,7 +193,7 @@ class TokenManager {
     for (let i = 0; i < this.tokens.length; i++) {
       if (this.tokens[i].type === "token-block") {
         let b = this.tokens[i];
-        entities.push([b.start, b.end, b.label]);
+        entities.push([b.line, b.start, b.end, b.label]);
       }
     }
     return entities;

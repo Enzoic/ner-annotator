@@ -80,12 +80,11 @@ export default {
     ...mapState(["annotations", "classes"]),
   },
   methods: {
-    ...mapMutations(["loadClasses", "loadAnnotations", "setInputSentences", "clearAllAnnotations", "resetIndex"]),
+    ...mapMutations(["loadClasses", "loadAnnotations", "setInputSentences", "clearAllAnnotations", "resetIndex", "filename"]),
     switchToPage(page) {
       this.currentPage = page;
     },
     onDragEnter() {
-      console.log("Here");
       this.overlayActive = true;
     },
     onDragLeave() {
@@ -99,6 +98,7 @@ export default {
     },
     processFileDrop() {
       let reader = new FileReader();
+      let filename = this.pendingFileDrop.name;
       reader.onload = (ev) => {
         let file = ev.target.result;
         try {
@@ -120,7 +120,7 @@ export default {
             );
           } catch (e) {
             try {
-              this.setInputSentences(file);
+              this.setInputSentences({data: file, filename});
               this.clearAllAnnotations();
               this.resetIndex();
               this.switchToPage('annotate');
