@@ -6,12 +6,14 @@
 import json
 import argparse
 
-#read in a command line argument for the file name
+# read in a command line arguments for the file to be processed (the json annotations file) and the
+# corresponding raw data file (the file that was used to create the annotations file) - the name will be used to
+# create the first column in the output csv file
 parser = argparse.ArgumentParser()
-parser.add_argument("--file_name", type=str, help="the name of the file to be read")
+parser.add_argument("--input_file_name", type=str, help="the name of the file to be read")
 parser.add_argument("--data_file_name", type=str, help="the name of the file containing the raw training data")
 args = parser.parse_args()
-file = args.file_name
+file = args.input_file_name
 data_file = args.data_file_name
 
 
@@ -31,9 +33,11 @@ for each in data['annotations']:
             data_string = data_file + ", " + str(item[0]) + ", " + str(item[1]) + ", " + str(item[2]) + ", " + str(item[3])
             output_list.append(data_string)
 
+#write the populated output_list to a csv file
 
 
 
 
-#TODO: add automatic file uploading to s3 once endpoints are created
+
+#TODO: add automatic file uploading to s3 once buckets are created
 
