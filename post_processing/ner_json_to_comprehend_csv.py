@@ -5,6 +5,8 @@
 
 import json
 import argparse
+import os
+import datetime
 
 # read in a command line arguments for the file to be processed (the json annotations file) and the
 # corresponding raw data file (the file that was used to create the annotations file) - the name will be used to
@@ -33,8 +35,20 @@ for each in data['annotations']:
             data_string = data_file + ", " + str(item[0]) + ", " + str(item[1]) + ", " + str(item[2]) + ", " + str(item[3])
             output_list.append(data_string)
 
-#write the populated output_list to a csv file
+#removes file extension 
+def remove_file_extension(input_string):
+    return os.path.splitext(input_string)[0]
 
+#gathers datetime
+today = str(datetime.date.today())
+
+#creates 
+output_datafile_string = ("enzoic-training-" + remove_file_extension(data_file) + "_" + today +  ".csv")
+
+for line in output_list:
+    f = open(output_datafile_string , "a")
+    f.write(line + '\n')
+    f.close()
 
 
 
