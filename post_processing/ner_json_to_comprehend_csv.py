@@ -8,6 +8,10 @@ import argparse
 import os
 import datetime
 
+#removes file extension 
+def remove_file_extension(input_string):
+    return os.path.splitext(input_string)[0]
+
 # read in a command line arguments for the file to be processed (the json annotations file) and the
 # corresponding raw data file (the file that was used to create the annotations file) - the name will be used to
 # create the first column in the output csv file
@@ -45,13 +49,28 @@ today = str(datetime.date.today())
 #creates 
 output_datafile_string = ("enzoic-training-" + remove_file_extension(data_file) + "_" + today +  ".csv")
 
+'''
 for line in output_list:
     f = open(output_datafile_string , "a")
     f.write(line + '\n')
     f.close()
+'''
 
-
-
+with open(output_datafile_string , "a" ) as my_file:
+    for line in output_list:
+        if '\n' not in line:
+            my_file.write(line + '\n')
+        else:
+            my_file.write(line)
+    my_file.close()
 
 #TODO: add automatic file uploading to s3 once buckets are created
-
+'''
+with open(output_file_name, "a") as my_file:
+    my_file.write("email:password")
+    for cred in creds:
+        if "\n" not in cred:
+            my_file.write("\n")
+        my_file.write(cred)
+    my_file.close()
+'''
