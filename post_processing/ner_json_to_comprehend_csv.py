@@ -37,8 +37,8 @@ def remove_file_extension(input_string):
 # corresponding raw data file (the file that was used to create the annotations file) - the name will be used to
 # create the first column in the output csv file
 parser = argparse.ArgumentParser()
-parser.add_argument("--input_file_name", type=str, help="the name of the file to be read")
-parser.add_argument("--data_file_name", type=str, help="the name of the file containing the raw training data")
+parser.add_argument("-i", "--input_file_name", type=str, help="the name of the file to be read")
+parser.add_argument("-d", "--data_file_name", type=str, help="the name of the file containing the raw training data")
 args = parser.parse_args()
 file = args.input_file_name
 data_file = args.data_file_name
@@ -58,7 +58,10 @@ for each in data['annotations']:
     if each is not None:
         for item in each[1]['entities']:
             data_string = data_file + ", " + str(item[0]) + ", " + str(item[1]) + ", " + str(item[2]) + ", " + str(item[3])
-            output_list.append(data_string)
+            if item[0] is None:
+                pass
+            else:
+                output_list.append(data_string)
 
 #removes file extension 
 def remove_file_extension(input_string):
