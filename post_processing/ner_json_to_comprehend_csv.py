@@ -83,9 +83,8 @@ with open(output_datafile_string , "a" ) as my_file:
             my_file.write(line)
     my_file.close()
 
-#print(data_file,'\n',output_datafile_string)
-
+#upload file to training endpoint
 upload_files_to_repo(data_file,'training')
 
+#upload file to annotations endpoint
 upload_files_to_repo(output_datafile_string,'annotations')
-#TODO: add automatic file uploading to s3 once buckets are created
