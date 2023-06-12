@@ -7,6 +7,27 @@ import json
 import argparse
 import os
 import datetime
+import boto3
+
+
+def upload_files_to_repo(filename, repo_name):
+    print(f'uploading {filename}')
+
+    #accesses boto3 tools
+    session = boto3.Session()
+    #specifies tools for s3
+    repo_s3_client = session.resource('s3')
+
+    #initializes variable with naming convention
+    destination_string = repo_name + '/' + filename
+
+
+    try:
+        repo_s3_client.meta.client.upload_file(filename, 'enzoic-comprehend-dev', destination_string)
+    except:
+        print("failed to upload")
+    print("uploaded")
+    return True
 
 #removes file extension 
 def remove_file_extension(input_string):
@@ -62,4 +83,8 @@ with open(output_datafile_string , "a" ) as my_file:
             my_file.write(line)
     my_file.close()
 
-#TODO: add automatic file uploading to s3 once buckets are created
+#upload file to training endpoint
+upload_files_to_repo(data_file,'training')
+
+#upload file to annotations endpoint
+upload_files_to_repo(output_datafile_string,'annotations')
